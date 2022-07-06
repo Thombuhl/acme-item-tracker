@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Rankings from './Rankings';
 
 const Home = ({ users, things })=> {
   return (
@@ -8,15 +9,18 @@ const Home = ({ users, things })=> {
       <p>
         Here at the Acme Item Tracker Corp we have { users.length } users and { things.length } things!
       </p>
+      <Rankings />
     </div>
+    
   );
 };
 
-const mapSToP = (s)=> {
-  return {
-    users: s.users,
-    things: s.things
-  };
-};
 
-export default connect(mapSToP)(Home);
+const mapStateToProps = (state) => {
+  return {
+    users: state.users,
+    things: state.things
+  }
+}
+
+export default connect(mapStateToProps)(Home);

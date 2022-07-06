@@ -35,6 +35,59 @@ app.get('/api/users', async(req, res, next)=> {
   }
 });
 
+app.post('/api/users', async(req, res, next)=> {
+  try {
+    res.status(201).send(await User.create(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.delete('/api/users/:id', async(req, res, next)=> {
+  try {
+    const user = await User.findByPk(req.params.id)
+    user.destroy()
+    res.status(200).send('User Deleted');
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.delete('/api/things/:id', async(req, res, next)=> {
+  try {
+    const thing = await Thing.findByPk(req.params.id)
+    thing.destroy()
+    res.status(200).send('Thing Deleted');
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.put('/api/things/IncrementRANK/:id', async(req, res, next) => {
+  try {
+    const thing = await Thing.findByPk(req.params.id)
+    thing.ranking += 1;
+    await thing.save();
+    res.status(201).send(thing)
+  } catch (er) {
+    next(er)
+  }
+})
+
+app.put('/api/things/DecrementRANK/:id', async(req, res, next) => {
+  try {
+    const thing = await Thing.findByPk(req.params.id)
+    thing.ranking -= 1;
+    await thing.save();
+    res.status(201).send(thing)
+  } catch (er) {
+    next(er)
+  }
+})
+
 
 const port = process.env.PORT || 3000;
 
